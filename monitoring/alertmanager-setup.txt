@@ -1,0 +1,65 @@
+# Install alertmanager step by step
+sudo su -
+# Add user
+useradd --no-create-home --shell /bin/false alertmanager
+
+#create directories
+mkdir /etc/alertmanager
+
+# download alertmanager from https://prometheus.io/download/
+wget https://github.com/prometheus/alertmanager/releases/download/v0.23.0-rc.0/alertmanager-0.23.0-rc.0.linux-amd64.tar.gz
+
+#Move the tar file to temporar directory
+cd mv alertmanager-0.23.0-rc.0.linux-amd64.tar.gz /tmp/
+
+#extract files
+cd /tmp/
+tar -xvf alertmanager-0.23.0-rc.0.linux-amd64.tar.gz
+
+#rename extracted folder for simplicity
+mv alertmanager-0.23.0-rc.0.linux-amd64 alertmanager
+
+# move binaries
+cd alertmanager
+mv alertmanager /usr/local/bin
+mv amtool /usr/local/bin
+mv alertmanager.yml /etc/alertmanager/
+
+#change ownership
+chown alertmanager:alertmanager /usr/local/bin/alertmanager
+chown alertmanager:alertmanager /usr/local/bin/amtool
+chown -R alertmanager:alertmanager /etc/alertmanager/
+
+# add service
+vim /etc/systemd/system/alertmanager.service
+
+[Unit]
+Description=Alertmanager
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=alertmanager
+Group=alertmanager
+Type=simple
+WorkingDirectory=/etc/alertmanager/
+ExecStart=/usr/local/bin/alertmanager \
+    --config.file /etc/alertmanager/alertmanager.yml 
+
+[Install]
+WantedBy=multi-user.target
+
+#update prometheus 
+systemctl stop prometheus
+vim /etc/prometheus/prometheus.yml
+- remove the comment in front of alertmanager and change it to localhost
+
+#start prometheus
+systemctl daemon-reload
+systemctl start prometheus
+systemctl start alertmanager
+systemctl status prometheus
+systemctl status alertmanager
+systemctl enable alertmanager
+
+got to <1p>:9093

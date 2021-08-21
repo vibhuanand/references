@@ -1,0 +1,26 @@
+Consul
+
+
+Discovery means connections bettewen diffrent microservices 
+
+Its an infrastructure layer that facilitates application communications
+it can work as a DNSto find the resources your application needs.
+It can be used as a transport via encrypted tunnels for your dynamic applications
+Blocked applications can use consul tunnels. Consul provides service discovery and application configuration.
+Consul monitors application health and can redirect traffic from faulty applications
+Platform agnostic
+
+if service A wants to connect to service B, it connects through a hardcoded IP address to Service B's load balancer which puts it to single point of failure, doent mtter if there are multiple instances of service B 
+It also adds network latency and service A has to go through load balancer
+
+Three pillars of service mesh 
+
+Discovery
+configuration
+segmentation -
+
+Registry - all instances get resisterd to a registery .
+configuration- key value pairs to manage instances centraly 
+segmentation- connect - service graph - who cab connect to what .
+
+In kubernetes, consul is added as statefull set in all nodes in the cluster

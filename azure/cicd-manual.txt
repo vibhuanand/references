@@ -1,0 +1,47 @@
+Azure CLI
+
+$ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+$ az login
+
+$ az account set --subscription “<name of subscription>” - (optional/if you have more then one subscriptions)
+
+create your own private container registry using Azure Container Registry (ACR)
+
+$ az acr create --resource-group DEFAULTRESOURCEGROUP-EUS --name K8apple --sku Standard --location centralus
+
+
+Authorize the AKS cluster to connect to the ACR 1.
+Get the ACR registry resource id 
+• Name: ACR name 
+• Resource Group: ACR resource group 
+$ az acr show --name K8smjacr --resource-group K8s-demo --query "id" --output tsv
+
+get your ACR login server name with the az acr list command 
+
+$ az acr list --resource-group K8s-demo --query "[].{acrLoginServer:loginServer}" -- output table
+
+
+Set the display for docker login to work $ sudo apt install gnupg2 pass $ gpg2 --full-generate-key
+
+Tag docker image
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+$ docker tag azure-vote-front k8smjacr.azurecr.io/azure-vote-front:v1
+
+Login to registery 
+docker login k8apple.azurecr.io
+Docker push <name of image >
+
+Install kubectl cli 
+
+$ az aks install-cli
+
+Old way = az aks get-credentials --name MyManagedCluster --resource-group MyResourceGroup
+
+New way = attach the acr to the cluster 
+
+az aks update -n myAKSCluster -g myResourceGroup --attach-acr $MYACR
+
+Automation-
+
+#create Jenkins server
+$ az vm create --resource-group dockerrg --name jenkins-vm --image UbuntuLTS --admin-username "jenkins" --adminpassword Passw0rd@123j

@@ -1,0 +1,91 @@
+# Prometheus Installation step by step
+
+sudo su - 
+
+#Add user 
+useradd --no-create-home --shell /bin/false prometheus
+
+#create diiectories 
+mkdir /etc/prometheus
+mkdir /var/lib/prometheus
+
+# change ownership
+chown prometheus:prometheus /var/lib/prometheus
+
+Install prometheus https://prometheus.io/download/
+cd /tmp
+
+wget https://github.com/prometheus/prometheus/\
+> releases/download/v2.7.1/prometheus-2.7.1.linux-amd64.tar.gz
+
+# extract the file
+tar -xvf prometheus-2.7.1.linux-amd64.tar.gz 
+
+# ename the extracted file 
+mv prometheus-2.7.1.linux-amd64 prometheus
+
+# move congiguration files 
+mv console* /etc/prometheus/
+mv prometheus.yml /etc/prometheus/
+
+# change ownerships
+chown -R prometheus:prometheus /etc/prometheus
+
+# move binaries
+mv prometheus /usr/local/bin
+mv promtool /usr/local/bin
+
+# change ownership
+chown prometheus:prometheus /usr/local/bin/prom*
+
+# create service file for prometheus
+vim /etc/systemd/system/prometheus.service
+Add the following contects to the file- 
+
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/usr/local/bin/prometheus \
+    --config.file /etc/prometheus/prometheus.yml \
+    --storage.tsdb.path /var/lib/prometheus/ \
+    --web.console.templates=/etc/prometheus/consoles \
+    --web.console.libraries=/etc/prometheus/console_libraries
+
+[Install]
+WantedBy=multi-user.target
+
+# start and enable prometheus
+systemctl start prometheus
+systemctl status prometheus
+systemctl enable prometheus
+
+goto <ip>:9090
+
+
+-------
+to add service discovery/targets-
+
+
+go to vim /etc/prometheus/prometheus.yml
+and add 
+
+
+
+
+  - job_name: 'grafana'
+    static_configs:
+    - targets: ['localhost:3000']
+  - job_name: 'alertmanager'
+    static_configs:
+    - targets: ['localhost:9093']
+  - job_name: 'node_exporter'
+    static_configs:
+    - targets: ['localhost:9100']
+
+    restart prometheus

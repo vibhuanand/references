@@ -1,0 +1,21 @@
+Installation-
+
+1. Make sure java is installed
+2. Install java yum install java-1.8* and add it to home path - 
+3. Finding home path - find /usr/lib/jvm/java-1.8* | head -n 3
+4. Setting jre to homepath  cd ~ , vi .bash_profile, in.bash_profile, JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.amzn2.0.1.x86_64
+PATH=$PATH:$HOME/bin:$JAVA_HOME
+export PATH
+
+5. After installing java and opening it in chrome reset password for user
+6. Add JDK - manage jenkins > global tool configuration > add JDK
+7. Name= JAVA_HOME  and add path
+8. Install git on server and add git plugin to jenkins
+9. Set git in global tool configuration > name = GitHub , path =/usr/bin/git
+
+
+Remove password - in Jenkins container go to /var/jenkins_home/config.xml and change security to false
+
+
+
+Deploy to container - plugin for deploying on tomcat

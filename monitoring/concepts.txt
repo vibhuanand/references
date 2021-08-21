@@ -1,0 +1,25 @@
+Monitoring Concepts
+<ip>:3000/metrics - gives metrics
+
+Pains of pull based system
+Nagios is also a pull base system - very hard to scale
+Prometheus is a pull based system but easier
+Pull based system updates every 15 seconds/periodical so it is not live
+
+Push based system takes lot of work/hard to set up and is better for huge infrastructure spread across the world
+Push based also have quality and scaling issues.
+Push is better for event based monitoring and greater modularity
+Push based system will send information when an event completes, its on the end point when to send the data
+
+
+Dont try to fit your needs to a tool, find a tool according to your infrastructure needs
+dont jump from tool to tool, add tools when needed
+dont build what you can buy or download for free and write extensions to the extending tools you can use when something is lacking 
+dont manualy add targets to your monitor system, use some form of service discovery 
+dont repeat same troubleshooting tasks again and again, review runbooks to see where repeated tasks can be automated
+everyone should monitor insted of one person's job and should be considerd from begining of the project
+
+Node Exporter for linux-
+wmi for windows
+
+we need prometheus client liberary to instrument a particular language file for example python, node.js etceg 

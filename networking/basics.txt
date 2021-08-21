@@ -1,0 +1,16 @@
+TCP
+
+Three way hand shake to establish a connection
+SYN - req for for synchronization
+SYN ACK -  ACKNOWLEDGEMENT
+ACK - RESPONDING BACK
+
+If you need to send DATA you do through TCP (cues).  For usingTCP , you need IP (global) and for using IP we need Ethernet (local) .
+
+OSI Model - different layers
+TCP/IP Model	    OSI Model	
+Network Interface	Physical	Wires/Radio/Glass
+Network Interface	Data Link	Ethernet
+Internet	        Network	    nternet Protocol
+Transport	       Transport	TCP
+Application	       Application	Website/Email
