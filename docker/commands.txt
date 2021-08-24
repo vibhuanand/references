@@ -3,3 +3,19 @@ docker run --name ft-app1 -p 80:8080 -d <image-id/name>
 
 stop apache2 service
 /etc/init.d/apache2 stop
+
+Delete all 
+
+Delete all docker images	docker rmi $(docker images -q) -f
+
+Get into container with root privileges 	.docker exec -u 0 -it mycontainer bash
+
+	1.	docker kill $(docker ps -q)
+1. docker rm $(docker ps -a -q)
+
+
+docker-compose up -d
+docker exec -ti jenkins bash
+docker exec -u 0 -it jenkins bash - sign in as root
+docker container restart jenkins
+docker cp script.sh jenkins:/tmp/script.sh.  copy files from outside 
